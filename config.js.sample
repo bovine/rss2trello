@@ -1,0 +1,17 @@
+var config = {}
+
+config.feed_url = 'http://www.example.org/feeds/rss';
+    
+config.feed_interval = 30;
+
+config.trello_key = "................................";
+
+config.trello_token = "................................................................";
+
+config.board_id = '........................';
+
+config.target_list_name = 'Incoming';
+
+module.exports = config;
+
+
