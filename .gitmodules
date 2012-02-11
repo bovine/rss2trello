@@ -1,0 +1,6 @@
+[submodule "node-trello"]
+	path = node-trello
+	url = https://github.com/lmatteis/node-trello.git
+[submodule "node-rss"]
+	path = node-rss
+	url = https://github.com/ibrow/node-rss.git
