@@ -18,6 +18,10 @@ Possible uses of rss2trello include:
   RSS feed from Trulia.com and move cards into lists for "to visit",
   "to research further", "to make offer", "rejected", etc.
 
+* software managers could automatically add new bugs that appear in
+  their defect tracking system and use Trello as a higher-level
+  workflow organization tool to prioritize tasks.
+
 
 ## Using rss2trello
 
@@ -25,7 +29,7 @@ Copy the config.js.sample to config.js and make your customizations
 to your copy.  You will need to follow the instructions in the section
 below to get your Trello access token.
 
-To run the rss2trello application one, just run:
+To run the rss2trello application once, just run:
 
     nodejs main.js
 
