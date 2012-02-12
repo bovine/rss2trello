@@ -1,6 +1,14 @@
-This is a persistent Node.JS application that periodically polls an
-RSS feed for new items, and posting them as new tasks in Trello.
+This is a Node.JS application that checks your favorite RSS feed for
+new items, and posts any new articles as new cards in Trello.
 
+To periodically check for new items, simply use a crontab entry to
+re-run the rss2trello script.
+
+
+## Getting your Trello access token
+
+Trello is a free website from FogCreek that allows you to manage tasks
+by using a "Kanban" system involving cards, lists, and boards.
 
 To get a read/write token, visit this page while logged in:
 https://trello.com/1/appKey/generate
