@@ -14,9 +14,10 @@ Possible uses of rss2trello include:
   and move cards into lists for "to interview", "to make offer",
   "rejected", etc.
 
-* realators or home buyers could monitor new house listings using a
-  RSS feed from Trulia.com and move cards into lists for "to visit",
-  "to research further", "to make offer", "rejected", etc.
+* realtors, home buyers, or business partners could monitor new house
+  listings using a custom RSS feed from Trulia.com and move cards into
+  lists for "to visit", "to research further", "to make offer",
+  "rejected", etc.
 
 * software managers could automatically add new bugs that appear in
   their defect tracking system and use Trello as a higher-level
