@@ -45,8 +45,15 @@ re-run the rss2trello script, with something like this:
 To get a read/write token, visit this page while logged in:
 https://trello.com/1/appKey/generate
 
-Copy and paste the key into the config.js file as config.trello_key.
+Copy and paste the key into the config.js file as `config.trello_key`.
 Also paste the key into the "..." portion of the following URL and click the button:
 https://trello.com/1/connect?key=...&name=rss2trello&response_type=token&scope=read,write
 
-Copy and paste the resulting token into the config.js file as config.trello_token.
+Copy and paste the resulting token into the config.js file as `config.trello_token`.
+
+The config file also needs the identifier of the Trello board provided
+as `config.board_id`, which is the hexadecimal portion of the trello.com URL
+after you have clicked on the board to view it on their website.
+
+The value `config.target_list_name` in the config file is the exact name
+of the list that you have already created within the board.
