@@ -12,12 +12,12 @@ Possible uses of rss2trello include:
 * recruiters could monitor job candidates by using a Craigslist.org
   RSS feed for new applicants and allow hiring staff to make comments
   and move cards into lists for "to interview", "to make offer",
-  "rejected", etc.
+  "rejected", etc. http://houston.craigslist.org/sof/index.rss
 
 * realtors, home buyers, or business partners could monitor new house
   listings using a custom RSS feed from Trulia.com and move cards into
   lists for "to visit", "to research further", "to make offer",
-  "rejected", etc.
+  "rejected", etc. http://www.trulia.com/tools/rss/
 
 * software managers could automatically add new bugs that appear in
   their defect tracking system and use Trello as a higher-level
