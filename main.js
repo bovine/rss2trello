@@ -16,29 +16,40 @@ function rememberExistingCard(card) {
     existingCards.push(card);
 }
 
+// If true is returned, then the card is rejected.
 function checkCardExistsForArticle(article) {
+    var rejected = false;
 
-    var found = false;
-    existingCards.forEach(function (card) {
-	// compare card.{name|desc} with article.{title|link|description}
-	// TODO: this might need to be customized based on your RSS feed format.
-	if (card.desc.indexOf(article.link) >= 0) {
-	    found = true;
-	}
-    });
+    // Any other logic to filter/reject new RSS articles.
+    if (config.feed_filter != null) {
+	rejected = config.feed_filter(article);
+    }
 
-    return found;
+    // Search through the current Trello cards to see if it already exists.
+    // You can compare card.{name|desc} with article.{title|link|description}
+    if (!rejected && config.card_article_comparator != null) {
+	existingCards.forEach(function (card) {
+	    if (config.card_article_comparator(card, article)) {
+		rejected = true;
+	    }
+	});
+    }
+
+    return rejected;
 }
 
 function createCardFromArticle(listId, article) {
     // do some final transformations on the details of the card.
-    // TODO: this might need to be customized based on your RSS feed format.
-    var finalName = article.title.split(',', 1);
-    var finalDesc = article.title + "\n" + article.link + "\n" + article.description;
+    var finalCard = {};
+    if (config.article_formatter != null) {
+	finalCard = config.article_formatter(article);
+    } else {
+	finalCard = { 'name': article.title, 'desc': article.description };
+    }
 
     // actually create the card on Trello in the correct list.
-    util.puts("Creating card for " + finalName);
-    tr.post("/1/lists/"+listId+"/cards", { "name": finalName, "desc": finalDesc}, function(err, data) {
+    util.puts("Creating card for " + finalCard.name);
+    tr.post("/1/lists/"+listId+"/cards", finalCard, function(err, data) {
 	if(err) throw err;
 	//console.log(data);
 	util.puts("Successfully created card id " + data.id);
@@ -81,10 +92,10 @@ function main() {
     //
     // Fetch all of the lists and cards in this Trello board asynchronously.
     //
-    tr.get("/1/boards/"+config.board_id+"/lists/open", function(err, data) {
+    tr.get("/1/boards/"+config.boardid+"/lists/open", function(err, data) {
 	if(err) throw err;
 	data.forEach(function(tlist) {
-	    //console.log(val);
+	    //console.log(tlist);
 
 	    // If this is the list we're looking for, remember its id.
 	    if (tlist.name == config.target_list_name) {
@@ -92,9 +103,11 @@ function main() {
 	    }
 
 	    // Save the identities of all cards we find, to avoid duplicates.
-	    tlist.cards.forEach(function(card) {
-		rememberExistingCard(card);
-	    });
+	    if (tlist.cards != null) {
+		tlist.cards.forEach(function(card) {
+		    rememberExistingCard(card);
+		});
+	    }
 	});
 	processCompletion();
     });

@@ -1,14 +1,49 @@
 var config = {}
 
+// This is the URL of your RSS feed.
 config.feed_url = 'http://www.example.org/feeds/rss';
     
-config.trello_key = "................................";
+// Helper callback to arbitrarily ignore articles you do not want Trello cards for.
+// This might need to be customized based on your RSS feed format.
+config.feed_filter = function (article) {
+    // For example, to ignore any article containing the word "Hate" in the title:
+    //      return (article.title.indexOf('Hate') >= 0);
 
+    return false;
+}
+
+
+// Helper callback used see if a Trello card already exists for this article.
+// This might need to be customized based on your RSS feed format.
+// You can compare card.{name|desc} with article.{title|link|description}
+config.card_article_comparator = function (card, article) {
+    // This just checks to see if the RSS item link is present anywhere in the card description.
+    return (card.desc.indexOf(article.link) >= 0);
+}
+
+
+
+// Helper callback used to create the final contents of a Trello card.
+// This might need to be customized based on your RSS feed format.
+config.article_formatter = function (article) {
+    var finalName = article.title.split(',', 1);
+    var finalDesc = article.title + "\n" + article.link + "\n" + article.description;
+
+    return { 'name': finalName, 'desc': finalDesc };
+}
+
+
+
+// Your Trello API authentication values.
+config.trello_key = "................................";
 config.trello_token = "................................................................";
 
+// Identifier of the Trello board.
 config.board_id = '........................';
 
+// Name of the Trello list that will receive new cards.
 config.target_list_name = 'Incoming';
+
 
 module.exports = config;
 
