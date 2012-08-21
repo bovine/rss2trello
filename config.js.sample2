@@ -1,0 +1,63 @@
+// This is a real-world sample that fetches real-estate properties from Trulia.com
+// and applies some additional filtering criteria before creating new Trello cards.
+
+var config = {}
+
+// This is the URL of your RSS feed.
+// You can build your own custom URLS from http://www.trulia.com/tools/rss/
+config.feed_url = 'http://www.trulia.com/rss2/for_sale/Houston,TX/MULTI-FAMILY_type/100000-250000_price/';
+
+
+// Helper callback to arbitrarily ignore articles you don't want Trello cards for.
+// This might need to be customized based on your RSS feed format.
+config.feed_filter = function (article) {
+    var rejected = false;
+
+    // We want to further refine the RSS feed by ignoring ZIP codes not in our set.
+    var re = new RegExp("Houston, TX ([0-9]{5})");
+    var matches = re.exec(article.title);
+    if (matches != null) {
+	var goodzips = ["77027", "77019", "77098", "77006", "77005", "77004"];
+	if (goodzips.indexOf(matches[1]) < 0) {
+	    rejected = true;
+	}
+    }
+
+    return rejected;
+}
+
+
+// Helper callback used see if a Trello card already exists for this article.
+// This might need to be customized based on your RSS feed format.
+// You can compare card.{name|desc} with article.{title|link|description}
+config.card_article_comparator = function (card, article) {
+    // This just checks to see if the RSS item link is present anywhere in the card description.
+    return (card.desc.indexOf(article.link) >= 0);
+}
+
+
+// Helper callback used to create the final contents of a Trello card.
+// This might need to be customized based on your RSS feed format.
+config.article_formatter = function (article) {
+    var finalName = article.title.split(',', 1);
+    var finalDesc = article.title + "\n" + article.link + "\n" + article.description;
+
+    return { 'name': finalName, 'desc': finalDesc };
+}
+
+
+// Your Trello API authentication values.
+config.trello_key = "................................";
+config.trello_token = "................................................................";
+
+// Identifier of the Trello board.
+config.board_id = '........................';
+
+// Name of the Trello list that will receive new cards.
+config.target_list_name = 'Incoming';
+
+
+
+module.exports = config;
+
+
